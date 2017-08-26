@@ -15,6 +15,10 @@ private:
     bool hasValue;
 
 public:
+    Optional() : hasValue(false) {
+
+    }
+
     Optional(T value) : value(value), hasValue(true) {
 
     }
@@ -22,6 +26,10 @@ public:
 public:
     T getValue() const {
         return value;
+    }
+
+    bool isPresent() const {
+        return hasValue;
     }
 
 public:
@@ -32,6 +40,37 @@ public:
         }
 
         return decltype(f(value))();
+    }
+
+    auto orElse(T other) {
+        if (hasValue)
+            return value;
+
+        return other;
+    }
+
+    template <class F>
+    T orElseGet(F&& f) {
+        if (hasValue)
+            return value;
+
+        return f();
+    }
+
+    template <class F>
+    void ifPresent(F&& f) {
+        if (hasValue) {
+            f(value);
+        }
+    }
+
+    template <class F>
+    auto filter(F&& f) {
+        if (hasValue && f(value)) {
+            return Optional<T>(value);
+        }
+
+        return Optional<T>();
     }
 
 };

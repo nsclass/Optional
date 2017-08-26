@@ -1,9 +1,31 @@
 #include <iostream>
 #include "Optional.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
 
+void testFilter() {
+
+    Optional<int> test(1);
+
+    Optional<int> result = test.filter([](int value) -> bool {
+            return value < 10;
+    });
+
+    if (result.isPresent())
+        std::cout << "Filter test result: " << result.getValue() << "\n";
+
+}
+
+void testIfPresent() {
+    Optional<int> test(1);
+
+    test.ifPresent([](int value) {
+        std::cout << "ifPresent test result: " << value << "\n";
+
+    });
+
+}
+
+void testMap() {
     Optional<int> value(1);
 
     auto floatValue = value.map([](int value) -> float {
@@ -27,6 +49,38 @@ int main() {
     });
 
     std::cout << "finalValue: " << stringValue.getValue() << "\n";
+
+}
+
+void testOrElse() {
+    Optional<int> value2;
+
+    auto result = value2.orElse(2);
+    std::cout <<"Test orElse result: " << result << "\n";
+
+}
+
+void testOrElseGet() {
+    Optional<int> value2;
+    auto result2 = value2.orElseGet([]()->float {
+        return 11.11;
+    });
+
+    std::cout <<"Test orElseGet result: " << result2 << "\n";
+}
+
+
+int main() {
+
+    testMap();
+
+    testFilter();
+
+    testIfPresent();
+
+    testOrElse();
+
+    testOrElseGet();
 
     return 0;
 }
