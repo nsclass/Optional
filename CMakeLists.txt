@@ -3,5 +3,5 @@ project(monad_test)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCE_FILES main.cpp Optional.h)
+set(SOURCE_FILES main/main.cpp Optional/Optional.h)
 add_executable(monad_test ${SOURCE_FILES})
