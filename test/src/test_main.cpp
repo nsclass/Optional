@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../Optional/Optional.h"
+#include "Optional.h"
 
 
 using namespace NS;
@@ -47,7 +47,7 @@ void testMap() {
     }).map([](int value) -> double {
         return (double)value;
     }).map([](double value) -> std::string {
-        std::to_string(value);
+        return std::to_string(value);
     });
 
     std::cout << "finalValue: " << stringValue.getValue() << "\n";

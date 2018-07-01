@@ -1,7 +1,18 @@
 cmake_minimum_required(VERSION 3.8)
-project(monad_test)
 
-set(CMAKE_CXX_STANDARD 17)
+project(LibOptional VERSION 0.1 LANGUAGES CXX)
 
-set(SOURCE_FILES main/main.cpp Optional/Optional.h)
-add_executable(monad_test ${SOURCE_FILES})
+
+add_library(LibOptional INTERFACE)
+
+
+# Define headers for this library. PUBLIC headers are used for
+# compiling the library, and will be added to consumers' build
+# paths.
+target_include_directories(LibOptional
+        INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
+
+enable_testing ()
+
+add_subdirectory(test)
