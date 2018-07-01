@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.8)
 
 project(LibOptional VERSION 0.1 LANGUAGES CXX)
 
-
 add_library(LibOptional INTERFACE)
-
 
 # Define headers for this library. PUBLIC headers are used for
 # compiling the library, and will be added to consumers' build
