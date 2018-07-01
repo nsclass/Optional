@@ -1,2 +1,2 @@
 # Optional
-C++ Optional implementation in Java 8
+Java 8 Optional style of C++ implementation
