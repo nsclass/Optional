@@ -4,6 +4,8 @@ project(LibOptional VERSION 0.1 LANGUAGES CXX)
 
 add_library(LibOptional INTERFACE)
 
+target_compile_features(LibOptional INTERFACE cxx_std_17)
+
 # Define headers for this library. PUBLIC headers are used for
 # compiling the library, and will be added to consumers' build
 # paths.
