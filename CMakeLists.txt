@@ -16,3 +16,4 @@ target_include_directories(LibOptional
 enable_testing ()
 
 add_subdirectory(test)
+add_subdirectory(third-party)

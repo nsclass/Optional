@@ -1,10 +1,13 @@
 #include <iostream>
 #include "Optional.h"
 
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 
 using namespace NS;
 
-void testFilter() {
+
+auto testFilter() {
 
     Optional<int> test(1);
 
@@ -12,77 +15,64 @@ void testFilter() {
             return value < 10;
     });
 
-    if (result.isPresent())
-        std::cout << "Filter test result: " << result.getValue() << "\n";
+    return result;
 
 }
 
-void testIfPresent() {
+
+TEST_CASE( "1: Filter test", "Optional" ) {
+    REQUIRE(testFilter().getValue() == 1);
+}
+
+
+TEST_CASE( "2: ifPresent test", "Optional" ) {
     Optional<int> test(1);
 
     test.ifPresent([](int value) {
-        std::cout << "ifPresent test result: " << value << "\n";
-
+        REQUIRE(testFilter().getValue() == 1);
     });
-
 }
 
-void testMap() {
+
+TEST_CASE( "3: map test", "Optional" ) {
     Optional<int> value(1);
 
     auto floatValue = value.map([](int value) -> float {
-        return value * 10.0f;
+        return value * 10.1f;
     });
 
-    std::cout << "floatValue: " << floatValue.getValue() << "\n";
+    REQUIRE(floatValue.getValue() == 10.1f);
 
     auto stringValue = floatValue.map([](float value) -> std::string {
-        return std::to_string(value);
+        return std::to_string((int)value);
     });
 
-    std::cout << "stringValue: " << stringValue.getValue() << "\n";
+
+    REQUIRE(stringValue.getValue() == "10");
 
     auto finalValue = stringValue.map([](std::string const& value) -> int {
         return std::stoi(value);
     }).map([](int value) -> double {
-        return (double)value;
+        return (double)value + 10;
     }).map([](double value) -> std::string {
-        return std::to_string(value);
+        return std::to_string((int)value);
     });
 
-    std::cout << "finalValue: " << stringValue.getValue() << "\n";
+    REQUIRE(finalValue.getValue() == "20");
+}
+
+TEST_CASE( "4: orElse test integer", "Optional" ) {
+    Optional<int> value2;
+
+    Optional<int> result = value2.orElse(2);
+    REQUIRE(result.getValue() == 2);
 
 }
 
-void testOrElse() {
+TEST_CASE( "5: orElse test float", "Optional" ) {
     Optional<int> value2;
-
-    auto result = value2.orElse(2);
-    std::cout <<"Test orElse result: " << result << "\n";
-
-}
-
-void testOrElseGet() {
-    Optional<int> value2;
-    auto result2 = value2.orElseGet([]()->float {
-        return 11.11;
+    Optional<int> result2 = value2.orElseGet([]()-> int {
+        return 11;
     });
-
-    std::cout <<"Test orElseGet result: " << result2 << "\n";
-}
-
-
-int main() {
-
-    testMap();
-
-    testFilter();
-
-    testIfPresent();
-
-    testOrElse();
-
-    testOrElseGet();
-
-    return 0;
+    REQUIRE(result2.getValue() == 11);
 }
